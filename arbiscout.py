@@ -146,10 +146,11 @@ def admin_panel(message):
 def back(message):
     return start(message)
 
+import os
 import flask
 from flask import request
 
-WEBHOOK_URL = 'https://arbiscout.onrender.com'  # твій лінк сюди!
+WEBHOOK_URL = 'https://arbiscout.onrender.com'  # встав свою ссилку сюди
 
 app = flask.Flask(__name__)
 
@@ -164,6 +165,8 @@ def webhook():
         return 'Invalid Content-Type', 403
 
 if __name__ == "__main__":
+    PORT = int(os.environ.get('PORT', 5000))  # динамічний порт від Render
     bot.remove_webhook()
     bot.set_webhook(url=WEBHOOK_URL)
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0", port=PORT)
+

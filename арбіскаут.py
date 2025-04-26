@@ -146,6 +146,24 @@ def admin_panel(message):
 def back(message):
     return start(message)
 
-# === POLLING для запуску на сервері ===
+import flask
+from flask import request
+
+WEBHOOK_URL = 'https://arbiscout.onrender.com'  # твій лінк сюди!
+
+app = flask.Flask(__name__)
+
+@app.route('/', methods=['POST'])
+def webhook():
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return '', 200
+    else:
+        return 'Invalid Content-Type', 403
+
 if __name__ == "__main__":
-    bot.polling(none_stop=True)
+    bot.remove_webhook()
+    bot.set_webhook(url=WEBHOOK_URL)
+    app.run(host="0.0.0.0", port=10000)

@@ -1,4 +1,4 @@
-pyTelegramBotAPI
+pyTelegramBotAPI==4.14.0
+python-binance==1.0.17
 requests
-flask
 openai
